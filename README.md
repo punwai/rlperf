@@ -1,8 +1,11 @@
+<img width="1536" height="1024" alt="ChatGPT Image Jul 18, 2025, 04_07_14 PM" src="https://github.com/user-attachments/assets/4feeb545-ef92-4a0b-89be-ee3da42fda5f" />
+
 # Stasis
 This library aims to demonstrate how to create a dead-simple multi-node RL stack.
 
 Some focuses of this library includes:
 - RL specific observability tools to help debug capabilities
+
 - Support for GRPO, DrGRPO -- no value function models.
 - Focus on clean code -- zero feature bloat.
 
