@@ -1,14 +1,24 @@
 import ray
 
 from config import Config
+from dataloader import create_dataloaders
 
-@ray.remote()
+@ray.remote
 class Trainer:
     def __init__(self, config: Config):
         self.config = config
+        self.train_loader, self.test_loader = create_dataloaders(config.dataset)
 
     def train(self):
-        pass
 
-    def evaluate(self):
-        pass
+        steps = 0
+        for batch, ix in zip(self.train_loader, range(len(self.train_loader))):
+            steps += 1
+            print(steps)
+            break
+
+if __name__ == "__main__":
+    config = Config.from_yaml("configs/default.yaml")
+
+    trainer = Trainer.remote(config)
+    ray.get(trainer.train.remote())

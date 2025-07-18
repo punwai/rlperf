@@ -1,2 +1,23 @@
 model:
   name: "Qwen/Qwen3-0.6B"
+
+rollout:
+  tensor_parallel_size: 1
+  max_input_length: 1024
+  max_generation_length: 1024
+
+trainer:
+  nnodes: 1
+  devices_per_node: 1
+  activation_checkpointing: false
+
+dataset:
+  dataset_path: ""
+  batch_size: 32
+  shuffle: true
+  num_workers: 4
+  pin_memory: true
+  drop_last: false
+  persistent_workers: true
+  prefetch_factor: 2
+  max_length: null

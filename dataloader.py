@@ -1,5 +1,8 @@
+import json
+from datasets import load_dataset
 from torch.utils.data import DataLoader, Dataset
 from config import DatasetConfig
+import pyarrow.parquet as pq
 
 def create_dataloaders(config: DatasetConfig, transform=None):
     """
@@ -40,18 +43,12 @@ def create_dataloaders(config: DatasetConfig, transform=None):
 
 class StasisDataset(Dataset):
     def __init__(self, filepath: str, transform=None):
-        self.dataset = load_dataset("parquet", data_files=filepath)
-        self.transform = transform
-
-    def __iter__(self):
-        for item in self.dataset:
-            yield item
+        self.data = pq.read_table(filepath).to_pandas()
 
     def __len__(self) -> int:
-        return len(self.dataset)
+        return len(self.data)
 
     def __getitem__(self, index: int) -> dict:
-        return self.dataset[index]
-
-    def __iter__(self):
-        return iter(self.dataset)
+        item = self.data.iloc[index].to_dict()
+        item["prompt"] = json.loads(item["prompt"])
+        return item
