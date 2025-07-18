@@ -2,7 +2,8 @@
 This library aims to demonstrate how to create a dead-simple multi-node RL stack.
 
 Some focuses of this library includes:
-- RL specific observability tools
+- RL specific observability tools to help debug capabilities
+- 
 
 #### Development speed.
 
