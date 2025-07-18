@@ -83,8 +83,12 @@ class RolloutEngine:
         
         return asyncio.run(_generate_async())
 
+# What are you going to add?
+# 1. Multi-modal support
+
 if __name__ == "__main__":
     config = Config.from_yaml("configs/default.yaml")
     engine = RolloutEngine.remote(config)
+
     ray.get(engine.start_engine.remote())
     print(ray.get(engine.generate.remote([{"role": "user", "content": "Hello, how are you?"}])))
