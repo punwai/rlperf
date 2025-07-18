@@ -1,4 +1,5 @@
-# Implementation notes
+# Stasis
+This library aims to demonstrate how to create a dead-simple multi-node RL stack.
 
 #### Development speed.
 
