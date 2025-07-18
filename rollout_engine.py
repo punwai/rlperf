@@ -5,26 +5,16 @@ from vllm import AsyncEngineArgs, AsyncLLMEngine
 from vllm.config import DeviceConfig, ModelConfig, VllmConfig
 import ray
 
-
-# problems with existing RL stacks
-# 1. does not come with great observability tools out-of-the-box
-# 2. it is complex, and meant to support many algorithms, it is not super hackable
-# and easy to extend without extensive knowledge of Ray-distributed.
-
-# - top-level performance
-# - designed with ease-of-use from the ground up
-# - designed with developer friendliness in mind -- blazing fast startup times, etc.
-
-
+from config import Config
 
 # 
 # A light wrapper around the vllm engine.
 # 
 @ray.remote
 class RolloutEngine:
-    def __init__(self, model_name: str, num_workers: int):
-        self.model_name = model_name
-        self.num_workers = num_workers
+    def __init__(self, config: Config):
+        self.model_name = config.model.name
+        self.num_workers = 1
         self.engine = None
         self.engine_started = False
 
