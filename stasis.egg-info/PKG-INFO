@@ -1,0 +1,29 @@
+Metadata-Version: 2.4
+Name: stasis
+Version: 0.1.0
+Summary: RL Performance Framework
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: ray>=2.47.1
+Requires-Dist: vllm>=0.9.2
+Requires-Dist: pydantic>=2.0.0
+Requires-Dist: pynvml>=11.0.0
+Requires-Dist: psutil>=5.9.0
+Requires-Dist: datasets>=2.0.0
+Requires-Dist: torch>=2.0.0
+Requires-Dist: transformers>=4.30.0
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: pyarrow>=10.0.0
+Requires-Dist: pyyaml>=6.0
+
+# Implementation notes
+
+#### Development speed.
+
+vLLM makes many calls to pynvml, and this is super slow without turning on persistence mode on the CUDA driver. You only need to set it once, and it should bring down the latency of initializing vLLM from 17s -> 5s.
+
+```
+sudo nvidia-smi -pm 1
+```
+
+This enables CUDA driver persistence mode. The size of the driver will be ~75MB of kernel memory [TODO check this], but this is well worth it for development velocity.

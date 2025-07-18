@@ -1,5 +1,5 @@
 # import ray
-# from rollout_engine import RolloutEngine
+# from rlperf.rollout_engine import RolloutEngine
 
 # 
 # 1. Get the rollout engine to work for single-node GRPO RL.

@@ -7,8 +7,8 @@ from vllm import AsyncEngineArgs, AsyncLLMEngine, SamplingParams
 from vllm.config import DeviceConfig, ModelConfig, VllmConfig
 import ray
 import asyncio
-from config import Config
-from resources.scheduler import GangScheduler
+from rlperf.config import Config
+from rlperf.resources.scheduler import GangScheduler
 
 # 
 # A light wrapper around the vllm engine.

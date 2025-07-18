@@ -5,7 +5,8 @@ import psutil
 from typing import Dict, List, Optional
 from dataclasses import dataclass
 from datetime import datetime
-from resources.scheduler import GangScheduler
+from rlperf.config import Config
+from rlperf.resources.scheduler import GangScheduler
 
 @dataclass
 class MemorySnapshot:
@@ -212,3 +213,9 @@ class CentralMemoryLogger:
     def get_detailed_breakdown(self) -> List[MemorySnapshot]:
         """Get fresh detailed stats from each child logger"""
         return self._collect_stats_with_timeout(timeout=5.0)
+
+if __name__ == "__main__":
+    ray.init()
+    scheduler = GangScheduler(config=Config.from_yaml("configs/default.yaml"))
+    logger = CentralMemoryLogger.remote(scheduler)
+    print(ray.get(logger.get_cluster_stats.remote()))

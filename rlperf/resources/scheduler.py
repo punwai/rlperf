@@ -1,6 +1,6 @@
 import ray
 from ray.util.scheduling_strategies import PlacementGroupSchedulingStrategy
-from config import Config
+from rlperf.config import Config
 from ray.util.placement_group import placement_group
 
 class GangScheduler:

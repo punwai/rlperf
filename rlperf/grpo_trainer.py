@@ -1,8 +1,8 @@
 from typing import Any
 import ray
 import torch
-from config import Config
-from rollout_engine import RolloutEngine
+from rlperf.config import Config
+from rlperf.rollout_engine import RolloutEngine
 
 def main():
     config = Config.from_yaml("configs/default.yaml")

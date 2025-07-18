@@ -1,13 +1,13 @@
 import ray
 from ray.util.scheduling_strategies import PlacementGroupSchedulingStrategy
 from vllm.config import ModelConfig, VllmConfig
-from config import Config
-from mock.mock_worker import MockWorker, MockWorkerArgs
-from resources.scheduler import GangScheduler
+from rlperf.config import Config
+from rlperf.mock.mock_worker import MockWorker, MockWorkerArgs
+from rlperf.resources.scheduler import GangScheduler
 from typing import TYPE_CHECKING
 from vllm import AsyncLLMEngine
 
-from rollout_engine import RolloutEngine
+from rlperf.rollout_engine import RolloutEngine
 
 if __name__ == "__main__":
     config = Config.from_yaml("configs/default.yaml")

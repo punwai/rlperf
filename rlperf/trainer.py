@@ -1,7 +1,7 @@
 import ray
 
-from config import Config
-from dataloader import create_dataloaders
+from rlperf.config import Config
+from rlperf.dataloader import create_dataloaders
 
 @ray.remote
 class Trainer:

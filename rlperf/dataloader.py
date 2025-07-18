@@ -1,7 +1,7 @@
 import json
 from datasets import load_dataset
 from torch.utils.data import DataLoader, Dataset
-from config import DatasetConfig
+from rlperf.config import DatasetConfig
 import pyarrow.parquet as pq
 
 def create_dataloaders(config: DatasetConfig, transform=None):
