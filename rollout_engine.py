@@ -4,7 +4,7 @@ import time
 from vllm import AsyncEngineArgs, AsyncLLMEngine
 from vllm.config import DeviceConfig, ModelConfig, VllmConfig
 import ray
-
+import asyncio
 from config import Config
 
 # 
@@ -12,25 +12,17 @@ from config import Config
 # 
 @ray.remote
 class RolloutEngine:
-    def __init__(self, config: Config):
+    def __init__(self, config):
         self.model_name = config.model.name
         self.num_workers = 1
         self.engine = None
-        self.engine_started = False
 
     def start_engine(self):
-        print("Starting engine...")
-
-        start_time = time.time()
         self.engine = AsyncLLMEngine.from_engine_args(
             engine_args=AsyncEngineArgs(
                 model=self.model_name,
             )
         )
-        end_time = time.time()
-        print(f"Engine started in {end_time - start_time} seconds.")
-        self.engine_started = True
-        return True
     
     def stop_engine(self):
         """Clean shutdown of the engine"""
@@ -49,3 +41,12 @@ class RolloutEngine:
             "engine_started": self.engine_started,
             "engine_exists": self.engine is not None
         }
+
+    def sleep(self):
+        asyncio.run(self.engine.sleep())
+        return True
+    
+    def wake_up(self):
+        """Wake up the engine"""
+        asyncio.run(self.engine.wake_up())
+        return True

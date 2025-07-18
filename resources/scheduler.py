@@ -1,16 +1,9 @@
-
-
-# The scheduler is responsible for 
-
 import ray
+from ray.util.scheduling_strategies import PlacementGroupSchedulingStrategy
 from config import Config
-from ray.util.placement_group import (
-    placement_group,
-    placement_group_table,
-    remove_placement_group,
-)
+from ray.util.placement_group import placement_group
 
-class RayScheduler:
+class GangScheduler:
     """
     Manages the placement of workers onto compute.
     """
@@ -21,13 +14,23 @@ class RayScheduler:
         self.nnodes = nnodes
         self.devices_per_node = devices_per_node
         self.pgs = [
-            placement_group([{"CPU": 1} for _ in range(devices_per_node)])
+            placement_group([{"CPU": 1, "GPU": 1} for _ in range(devices_per_node)])
             for _ in range(nnodes)
         ]
+        ray.get([pg.ready() for pg in self.pgs])
 
-    def launch(self):
-        """
-        Given a ray remote function, perform gang scheduling onto the compute.
-        """
-        
+    def gang_schedule(self, remote_cls, args):
+        actors = []
+        for pg in self.pgs:
+            n_bundles = len(pg.bundle_specs)
+            for _ in range(n_bundles):
+                actor = remote_cls.options(
+                    scheduling_strategy=PlacementGroupSchedulingStrategy(
+                        placement_group=pg,
+                    ),
+                    num_gpus=0.001,
+                    num_cpus=0.001,
+                ).remote(args)
+                actors.append(actor)
 
+        return actors

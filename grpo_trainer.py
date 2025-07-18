@@ -1,3 +1,5 @@
+from typing import Any
+import ray
 import torch
 from config import Config
 from rollout_engine import RolloutEngine
@@ -5,7 +7,8 @@ from rollout_engine import RolloutEngine
 def main():
     config = Config.from_yaml("configs/default.yaml")
     # 
-    rollout_engine = RolloutEngine.remote(config)
+    rollout_engine: Any = RolloutEngine.remote(config)
+    ray.get(rollout_engine.sleep.remote())
 
 if __name__ == "__main__":
     main()

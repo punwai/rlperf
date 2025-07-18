@@ -51,10 +51,27 @@ class TrainerConfig(BaseModel):
     # Whether to use activation checkpointing
     activation_checkpointing: bool = False
 
+class DatasetConfig(BaseModel):
+    """Configuration for PyTorch DataLoader"""
+    # Dataset settings
+    dataset_path: str = "" # e.g., "my_dataset" -> looks in data/my_dataset/
+    # DataLoader settings  
+    batch_size: int = 32
+    shuffle: bool = True
+    num_workers: int = 4
+    pin_memory: bool = True
+    drop_last: bool = False
+    persistent_workers: bool = True
+    prefetch_factor: int = 2
+    
+    # Processing settings
+    max_length: Optional[int] = None
+
 class Config(BaseModel):
     model: ModelConfig = ModelConfig()
     rollout: RolloutConfig = RolloutConfig()
     trainer: TrainerConfig = TrainerConfig()
+    dataset: DatasetConfig = DatasetConfig()  # Will be set
 
     @classmethod
     def from_yaml(cls, path: str) -> 'Config':
