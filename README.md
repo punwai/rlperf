@@ -6,10 +6,12 @@ Some focuses of this library includes:
 - Support for GRPO, DrGRPO -- no value function models.
 - Focus on clean code -- zero feature bloat.
 
-#### Development speed.
+###
 
-vLLM makes many calls to pynvml, and this is super slow without turning on persistence mode on the CUDA driver. You only need to set it once, and it should bring down the latency of initializing vLLM from 17s -> 5s.
+### Development speed
+vLLM makes many calls to pynvml during initialization, This brings up the intialization time to around 17s. Turning on persistence mode on the CUDA driver brings this time down to around 5s.
 
+To turn on CUDA driver persistence mode, run:
 ```
 sudo nvidia-smi -pm 1
 ```
